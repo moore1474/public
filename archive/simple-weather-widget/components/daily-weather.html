@@ -1,0 +1,15 @@
+<div ng-repeat='num in [0, 2, 4, 6]'>
+		
+		<span class='{{daily_weather[num].rainColor}}' title='{{daily_weather[num].desc}}, {{daily_weather[num].precip}} chance of rain'>
+			<span  ng-bind-html='daily_weather[num].desc_sym' class='weather-desc-symbol'></span>
+			<span>{{daily_weather[num].dayOfWeek}}</span>&nbsp;
+			<span>{{daily_weather[num].high}}&#176 / {{daily_weather[num].low}}&#176</span>
+		</span>
+		--
+		<span class='{{daily_weather[num+1].rainColor}}' title='{{daily_weather[num+1].desc}}, {{daily_weather[num+1].precip}} chance of rain'>
+			<span ng-bind-html='daily_weather[num+1].desc_sym' class='weather-desc-symbol'></span>
+			<span>{{daily_weather[num+1].dayOfWeek}}</span>&nbsp;
+			<span>{{daily_weather[num+1].high}}&#176 / {{daily_weather[num+1].low}}&#176</span>
+		</span>
+
+</div>

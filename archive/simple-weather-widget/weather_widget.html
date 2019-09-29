@@ -1,0 +1,19 @@
+<div class='weather-widget'>
+	
+	<!-- Today's Weather -->
+	<div ng-include="templateHost + '/components/today-weather.html'"></div>
+	<hr/>
+
+	<!-- Rain Today -->
+	<div ng-include="templateHost + '/components/today-rain.html'"></div>
+	<hr ng-if='rain_today.length>0' />
+
+
+	<!-- This Week -->
+	<div ng-include="templateHost + '/components/daily-weather.html'"></div>
+	<hr/>
+	
+	<!-- Next Weekend -->
+	<div ng-include="templateHost + '/components/next-weekend.html'"></div>
+	
+</div>

@@ -1,0 +1,16 @@
+<!--Today-->
+<span title="{{hourly_weather[0].desc}}"> <span ng-bind-html='hourly_weather[0].desc_sym' class='weather-desc-symbol'></span>
+	<spanclass='right-now'>{{hourly_weather[0].temp}}&#176; {{hourly_weather[0].time}} </span>
+</span>
+<br />
+
+<span title="{{hourly_weather[6].desc}}">
+	<span ng-bind-html='hourly_weather[6].desc_sym' class='weather-desc-symbol'></span>
+	<span>{{hourly_weather[6].temp}}&#176; {{hourly_weather[6].time}}</span>
+</span>
+<br />
+
+<span title="{{hourly_weather[12].desc}}">
+	<span ng-bind-html='hourly_weather[12].desc_sym' class='weather-desc-symbol'></span>
+	<span>{{hourly_weather[12].temp}}&#176; {{hourly_weather[12].time}}</span>
+</span>

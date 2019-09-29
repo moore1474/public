@@ -1,0 +1,27 @@
+.weather-widget {
+	font-size: 75%;
+	line-height:1.6;
+	font-family: "Symbola", monospace;
+	display:inline-block
+}
+
+.right-now {
+	font-size: 110%;
+	font-weight: bold;
+}
+
+.weather-widget hr{
+	border-color:black;
+}
+
+.yellow-precip{
+	color: #C89127;
+}
+
+.red-precip{
+	color: red;
+}
+
+.weather-desc-symbol {
+	font-size: 100%;;
+}

@@ -1,0 +1,21 @@
+<html>
+
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+	<script>
+		var app = angular.module('weather-test', []);
+	</script>
+	<script src="../weather_widget.js"></script>
+	<script src="data/hourly_data.js"></script>
+	<script src="data/daily_data.js"></script>
+	<link rel="stylesheet" type="text/css" href="../weather_widget.css">
+</head>
+
+<body>
+	<div ng-app='weather-test'>
+		<weather templateUrl='../weather_widget.html' hourly="{{hourly}}" daily="{{daily}}"'></weather>
+	</div>
+</body>
+
+
+</html>

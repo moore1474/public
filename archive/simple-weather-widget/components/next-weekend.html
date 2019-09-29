@@ -1,0 +1,13 @@
+<!-- Saturday -->
+<span class='{{nextSaturday.rainColor}}' title='{{nextSaturday.desc}}, {{nextSaturday.precip}} chance of rain'> 
+	<span ng-bind-html='nextSaturday.desc_sym' class='weather-desc-symbol'></span>
+	<span>Sat</span>&nbsp; 
+	<span>{{nextSaturday.high}}&#176/ {{nextSaturday.low}}&#176</span>
+</span>
+--
+<!-- Sunday -->
+<span class='{{nextSunday.rainColor}}' title='{{nextSunday.desc}}, {{nextSunday.precip}} chance of rain'> 
+	<span ng-bind-html='nextSunday.desc_sym' class='weather-desc-symbol'></span>
+	<span>{{nextSunday.dayOfWeek}}</span>&nbsp; 
+	<span>{{nextSunday.high}}&#176 / {{nextSunday.low}}&#176</span>
+</span>

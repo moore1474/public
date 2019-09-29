@@ -1,0 +1,1032 @@
+
+<html>
+<div id='entries'>
+----------------------------------------
+3/22/2016
+c 12,010 Chase Checking
+c 13,485 Options House
+c 14,188 E-Trade
+c 5,175  TradeKing
+c 7,496  Huntington
+c 2,600  Pending Tax Return
+s 85,718 Options House
+s 0      Etrade
+s 0      TradeKing
+a 770    Coinbase
+k 16,423 Current Job 401K
+r 5,600  Scottrade Roth IRA
+k 25,571 Scottrade Traditional IRA
+o 96,500 House|1/2
+l 2,874  Chase Credit Card
+d 46,459 Student Loan
+d 95,734 House Loan
+---------------------------------------
+11/04/2015
+c 14,175 Chase Checking
+c 4,349  Options House
+c 14,187 E-Trade
+c 5,175  TradeKing
+c 2,365  Pending Tax Return
+s 74,108 Options House
+s 0      Etrade
+s 0      TradeKing
+a 836    Coinbase
+r 13,777 Former Job 401K #1
+k 11,323 Current Job 401K
+r 3,891  Scottrade Roth IRA
+k 34,238 Scottrade Traditional IRA
+o 96,500 House|1/2
+l 2,506  Chase Credit Card
+d 46,779 Student Loan
+d 100,177 House Loan
+-------------------------------------------------
+07/06/2015
+c 6,685   Chase Checking
+c 91      Options House
+c 52      E-Trade
+c 34      TradeKing
+c 1,505    Pending Tax Return
+s 60,638  Options House
+s 14,186  Etrade
+s 5,359   TradeKing
+a 506     Coinbase
+k 14,808  Former Job 401K #1
+k 10,579  Current Job 401K
+r 263     Chase Pension
+r 6,460   Scottrade Roth IRA
+k 3,892   Scottrade Traditional IRA
+o 96,500  House|1/2
+l 1,857   Chase Credit Card
+d 47,098  Student Loan
+d 110,613  House Loan
+-------------------------------------------------
+03/06/2015
+c 1,796   Chase Checking
+c 21      Options House
+c 6       E-Trade
+c 7       TradeKing
+c 645   Pending Tax Return
+s 54,233  Options House
+s 14,607  Etrade
+s 5,150   TradeKing
+s 3,100   Chase Stock
+a 543     Coinbase
+k 18,755  Former Job 401K #1
+k 10,715  Current Job 401K
+r 263     Chase Pension
+r 6,243   Scottrade Roth IRA
+o 96,500  House|1/2
+l 12,000  Taxes
+l 2,694   Chase Credit Card
+d 47,415  Student Loan
+d 120,042  House Loan
+-------------------------------------------------
+11/06/2014
+c 5,100   Chase Checking
+c 267     Options House
+c 797     E-Trade
+c 49      TradeKing
+s 43,570  Options House
+s 16,868  Etrade
+s 4,833   TradeKing
+s 561     Loyal3
+k 17,982  Former Job 401K #1
+k 10,480  Current Job 401K
+o 96,500  House|1/2
+l 11,000  Taxes
+l 1,538   Chase Credit Card
+d 47,745  Student Loan
+d 130,465  House Loan
+-------------------------------------------------
+07/20/2014
+c 6,022   Chase Checking
+c 3,117   Options House
+c 626     E-Trade
+s 29,650  Options House
+s 18,050  Etrade
+k 18,816  Former Job 401K #1
+k 10,408  Current Job 401K
+o 96,500  House|1/2
+l 8,000   Taxes
+l 4,392   Chase Credit Card
+d 48,149  Student Loan
+d 145,883 House Loan
+-------------------------------------------------
+01/23/2014
+c 11,146  5/3rd 
+c 6,214   Options House
+c 500     E-Trade
+s 10,590  Options House
+s 8,007   Etrade
+k 18,851  Former Job 401K #1
+k 7,363   Current Job 401K
+o 96,500  House|1/2
+l 1,000   Taxes
+l 4,000   Chase Credit Card
+d 50,535  Student Loan
+d 150,497 House Loan
+</div>
+<head>
+<script id='settings'>
+var NEAREST_AMOUNT_DISPLAY='h'; //Shows all amounts to nearest: d=dollar (Exact amount $1,234), h=hundred(e.g. 1.2k), k=thousand (e.g 1k)
+var DATE_FORMAT='MM/dd/yyyy';
+var NUM_OF_PROJECTED_POINTS = 2;
+var DAY_IN_PROJECTED = 90;
+var EXPECTED_EFFECTIVE_RETIREMENT_TAX_RATE=.11;
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script id='timeSpanJS'>
+
+var TimeSpan = function (days, hours, minutes, seconds, milliseconds) {
+    var attrs = "days hours minutes seconds milliseconds".split(/\s+/);
+    
+    var gFn = function (attr) { 
+        return function () { 
+            return this[attr]; 
+        }; 
+    };
+ 
+    var sFn = function (attr) { 
+        return function (val) { 
+            this[attr] = val; 
+            return this; 
+        }; 
+    };
+ 
+    for (var i = 0; i < attrs.length ; i++) {
+        var $a = attrs[i], $b = $a.slice(0, 1).toUpperCase() + $a.slice(1);
+        TimeSpan.prototype[$a] = 0;
+        TimeSpan.prototype["get" + $b] = gFn($a);
+        TimeSpan.prototype["set" + $b] = sFn($a);
+    }
+
+    if (arguments.length == 4) { 
+        this.setDays(days); 
+        this.setHours(hours); 
+        this.setMinutes(minutes); 
+        this.setSeconds(seconds); 
+    } else if (arguments.length == 5) { 
+        this.setDays(days); 
+        this.setHours(hours); 
+        this.setMinutes(minutes); 
+        this.setSeconds(seconds); 
+        this.setMilliseconds(milliseconds); 
+    } else if (arguments.length == 1 && typeof days == "number") {
+        var orient = (days < 0) ? -1 : +1;
+        this.setMilliseconds(Math.abs(days));
+        
+        this.setDays(Math.floor(this.getMilliseconds() / 86400000) * orient);
+        this.setMilliseconds(this.getMilliseconds() % 86400000);
+
+        this.setHours(Math.floor(this.getMilliseconds() / 3600000) * orient);
+        this.setMilliseconds(this.getMilliseconds() % 3600000);
+
+        this.setMinutes(Math.floor(this.getMilliseconds() / 60000) * orient);
+        this.setMilliseconds(this.getMilliseconds() % 60000);
+
+        this.setSeconds(Math.floor(this.getMilliseconds() / 1000) * orient);
+        this.setMilliseconds(this.getMilliseconds() % 1000);
+
+        this.setMilliseconds(this.getMilliseconds() * orient);
+    }
+
+    this.getTotalMilliseconds = function () {
+        return (this.getDays() * 86400000) + (this.getHours() * 3600000) + (this.getMinutes() * 60000) + (this.getSeconds() * 1000); 
+    };
+    
+    this.compareTo = function (time) {
+        var t1 = new Date(1970, 1, 1, this.getHours(), this.getMinutes(), this.getSeconds()), t2;
+        if (time === null) { 
+            t2 = new Date(1970, 1, 1, 0, 0, 0); 
+        }
+        else {
+            t2 = new Date(1970, 1, 1, time.getHours(), time.getMinutes(), time.getSeconds());
+        }
+        return (t1 < t2) ? -1 : (t1 > t2) ? 1 : 0;
+    };
+
+    this.equals = function (time) {
+        return (this.compareTo(time) === 0);
+    };    
+
+    this.add = function (time) { 
+        return (time === null) ? this : this.addSeconds(time.getTotalMilliseconds() / 1000); 
+    };
+
+    this.subtract = function (time) { 
+        return (time === null) ? this : this.addSeconds(-time.getTotalMilliseconds() / 1000); 
+    };
+
+    this.addDays = function (n) { 
+        return new TimeSpan(this.getTotalMilliseconds() + (n * 86400000)); 
+    };
+
+    this.addHours = function (n) { 
+        return new TimeSpan(this.getTotalMilliseconds() + (n * 3600000)); 
+    };
+
+    this.addMinutes = function (n) { 
+        return new TimeSpan(this.getTotalMilliseconds() + (n * 60000)); 
+    };
+
+    this.addSeconds = function (n) {
+        return new TimeSpan(this.getTotalMilliseconds() + (n * 1000)); 
+    };
+
+    this.addMilliseconds = function (n) {
+        return new TimeSpan(this.getTotalMilliseconds() + n); 
+    };
+
+    this.get12HourHour = function () {
+        return (this.getHours() > 12) ? this.getHours() - 12 : (this.getHours() === 0) ? 12 : this.getHours();
+    };
+
+    this.getDesignator = function () { 
+        return (this.getHours() < 12) ? Date.CultureInfo.amDesignator : Date.CultureInfo.pmDesignator;
+    };
+
+    this.toString = function (format) {
+        this._toString = function () {
+            if (this.getDays() !== null && this.getDays() > 0) {
+                return this.getDays() + "." + this.getHours() + ":" + this.p(this.getMinutes()) + ":" + this.p(this.getSeconds());
+            }
+            else { 
+                return this.getHours() + ":" + this.p(this.getMinutes()) + ":" + this.p(this.getSeconds());
+            }
+        };
+        
+        this.p = function (s) {
+            return (s.toString().length < 2) ? "0" + s : s;
+        };
+        
+        var me = this;
+        
+        return format ? format.replace(/dd?|HH?|hh?|mm?|ss?|tt?/g, 
+        function (format) {
+            switch (format) {
+            case "d": 
+                return me.getDays();
+            case "dd": 
+                return me.p(me.getDays());
+            case "H": 
+                return me.getHours();
+            case "HH": 
+                return me.p(me.getHours());
+            case "h": 
+                return me.get12HourHour();
+            case "hh": 
+                return me.p(me.get12HourHour());
+            case "m": 
+                return me.getMinutes();
+            case "mm": 
+                return me.p(me.getMinutes());
+            case "s": 
+                return me.getSeconds();
+            case "ss": 
+                return me.p(me.getSeconds());
+            case "t": 
+                return ((me.getHours() < 12) ? Date.CultureInfo.amDesignator : Date.CultureInfo.pmDesignator).substring(0, 1);
+            case "tt": 
+                return (me.getHours() < 12) ? Date.CultureInfo.amDesignator : Date.CultureInfo.pmDesignator;
+            }
+        }
+        ) : this._toString();
+    };
+    return this;
+};    
+
+/**
+ * Gets the time of day for this date instances. 
+ * @return {TimeSpan} TimeSpan
+ */
+Date.prototype.getTimeOfDay = function () {
+    return new TimeSpan(0, this.getHours(), this.getMinutes(), this.getSeconds(), this.getMilliseconds());
+};
+
+/* 
+ * TimePeriod(startDate, endDate);
+ * TimePeriod(years, months, days, hours, minutes, seconds, milliseconds);
+ */
+var TimePeriod = function (years, months, days, hours, minutes, seconds, milliseconds) {
+    var attrs = "years months days hours minutes seconds milliseconds".split(/\s+/);
+    
+    var gFn = function (attr) { 
+        return function () { 
+            return this[attr]; 
+        }; 
+    };
+ 
+    var sFn = function (attr) { 
+        return function (val) { 
+            this[attr] = val; 
+            return this; 
+        }; 
+    };
+ 
+    for (var i = 0; i < attrs.length ; i++) {
+        var $a = attrs[i], $b = $a.slice(0, 1).toUpperCase() + $a.slice(1);
+        TimePeriod.prototype[$a] = 0;
+        TimePeriod.prototype["get" + $b] = gFn($a);
+        TimePeriod.prototype["set" + $b] = sFn($a);
+    }
+    
+    if (arguments.length == 7) { 
+        this.years = years;
+        this.months = months;
+        this.setDays(days);
+        this.setHours(hours); 
+        this.setMinutes(minutes); 
+        this.setSeconds(seconds); 
+        this.setMilliseconds(milliseconds);
+    } else if (arguments.length == 2 && arguments[0] instanceof Date && arguments[1] instanceof Date) {
+        // startDate and endDate as arguments
+    
+        var d1 = years.clone();
+        var d2 = months.clone();
+    
+        var temp = d1.clone();
+        var orient = (d1 > d2) ? -1 : +1;
+        
+        this.years = d2.getFullYear() - d1.getFullYear();
+        temp.addYears(this.years);
+        
+        if (orient == +1) {
+            if (temp > d2) {
+                if (this.years !== 0) {
+                    this.years--;
+                }
+            }
+        } else {
+            if (temp < d2) {
+                if (this.years !== 0) {
+                    this.years++;
+                }
+            }
+        }
+        
+        d1.addYears(this.years);
+
+        if (orient == +1) {
+            while (d1 < d2 && d1.clone().addDays(Date.getDaysInMonth(d1.getYear(), d1.getMonth()) ) < d2) {
+                d1.addMonths(1);
+                this.months++;
+            }
+        }
+        else {
+            while (d1 > d2 && d1.clone().addDays(-d1.getDaysInMonth()) > d2) {
+                d1.addMonths(-1);
+                this.months--;
+            }
+        }
+        
+        var diff = d2 - d1;
+
+        if (diff !== 0) {
+            var ts = new TimeSpan(diff);
+            this.setDays(ts.getDays());
+            this.setHours(ts.getHours());
+            this.setMinutes(ts.getMinutes());
+            this.setSeconds(ts.getSeconds());
+            this.setMilliseconds(ts.getMilliseconds());
+        }
+    }
+    return this;
+};
+</script>
+</head>
+<body>
+
+<div id='balanceSheets'>
+</div>
+<div id='netWorthChart'>
+</div>
+<div id='netWorthChartControls'>
+ <span>Actuals:</span>&nbsp;&nbsp;&nbsp;&nbsp;
+ <span id='netWorthControl'>Net Worth</span>&nbsp;&nbsp;
+ <span id='assetsControl'>Assets</span>&nbsp;&nbsp;
+ <span id='debtControl'>Debt</span>&nbsp;&nbsp;
+ <span id='cashStocksRetirControl'>Cash, Stocks, & Retirement</span>&nbsp;&nbsp;
+ <span id='liquidNetWorth'>Liquid Net Worth</span>&nbsp;&nbsp;
+ </br>
+ <span>Projected:</span>&nbsp;&nbsp;
+ <span id='netWorthControlP'>Net Worth</span>&nbsp;&nbsp;
+ <span id='assetsControlP'>Assets</span>&nbsp;&nbsp;
+ <span id='debtControlP'>Debt</span>&nbsp;&nbsp;
+ <span id='cashStocksRetirControlP'>Cash, Stocks, & Retirement</span>&nbsp;&nbsp;
+ <span id='liquidNetWorthP'>Liquid Net Worth</span>&nbsp;&nbsp;
+ </br>
+ </br>
+</div>
+
+<style>
+
+ * {
+  font-family: monospace;
+  font-size: 1.05em;
+   }
+
+ .balanceSheet{
+  margin-top: 15px;
+  margin-bottom: 8px;
+ }
+ 
+ .hidden-balanceSheet{
+  margin-bottom: 4px;
+ }
+ 
+ #netWorthChart{
+  position: absolute;
+  top: 3%;
+  right: 10%;
+ }
+ 
+ div.ui-tooltip {
+  max-width: 600px;
+ }
+ 
+ .date{
+  color: #000080;
+  font-size: 1.3em;
+  font-weight: bold;
+  text-decoration: underline;
+ }
+ 
+ #netWorthChartControls {
+  font-size: .8em;
+  font-weight: bold;
+ }
+ 
+ .previous-date {
+  position: relative;
+ 
+  color: #000080;
+  font-size: .9em;
+  font-weight: bold;
+  text-decoration: underline;
+ }
+ 
+ .amount {
+  
+ }
+ 
+ .header{
+  font-weight: bolder;
+ }
+ 
+ .label {
+  
+ }
+ 
+ .smallLabel {
+  font-size: .7em;
+ }
+ 
+ .positive {
+  color: #004d00;
+ }
+ 
+ .negative {
+  color: #4d0000;
+ }
+ 
+ .analysis{
+  font-size: .7em;
+ }
+</style>
+<script id='classes'>
+var typeMapping = JSON.parse('{"c":"cash", "s":"stocks", "a":"altC", "r":"retire", "o":"otherAsset", "l":"liability", "d":"debt", "k":"retire"}');
+function AllBalanceSheets(){
+
+   this.balanceSheets = [];
+   this.chartRows = [];
+   this.data;;
+   this.graphColors = [];
+   
+ 
+ this.createProjectedRows = function(){
+  //Calculate projecteds
+  this.balanceSheets.reverse().forEach(function(bSheet, i){
+   bSheet.calculateProjecteds(i);
+  });
+  
+  //Add projecteds to chart
+  //Calculate projecteds
+  for(i=1;i<this.balanceSheets.length;i=i+NUM_OF_PROJECTED_POINTS){
+   this.createProjectedRow(this.balanceSheets[i], 'netWorth', '#003300', 1);
+   this.createProjectedRow(this.balanceSheets[i], 'totalAssets', '#000080', 2);
+   this.createProjectedRow(this.balanceSheets[i], 'debt', '#400080', 3);
+   this.createProjectedRow(this.balanceSheets[i], 'cashStocksRetirement', '#4d0026', 4);
+   this.createProjectedRow(this.balanceSheets[i], 'liquidNetWorth', '#802000', 5);
+  }
+ }
+ 
+ this.createProjectedRow = function(bSheet, type, clr, origNum){
+  this.data.addColumn('number', type + 'p');
+  this.graphColors.push(clr);
+  
+  
+  //Fill out column in previous data rows and init new row
+  this.chartRows.forEach(function(row){
+   row.push(null);
+  });
+  
+  var newRowBase = [];
+  this.chartRows[0].forEach(function(row){
+   newRowBase.push(null);
+  });
+  newRowBase.push(null);
+  
+  //Add Row for beginning
+  var firstNewRow = newRowBase.slice(0, newRowBase.length-1);
+  firstNewRow[0] = bSheet.daysSinceFirst;
+  firstNewRow[firstNewRow.length-1] = bSheet.sums[type];
+  allBalanceSheets.chartRows.push(firstNewRow);
+  
+  var days = bSheet.daysSinceFirst;
+  bSheet.projected[type].forEach(function(projAmount){   
+   var newRow = newRowBase.slice(0, newRowBase.length-1);
+   days = days + DAY_IN_PROJECTED;
+   newRow[0] = days;
+   newRow[newRow.length-1] = projAmount;
+   allBalanceSheets.chartRows.push(newRow);
+  });
+  
+  
+ }
+ 
+   this.createChartRows = function(){
+   //Actuals
+ var lastBalanceSheet;
+ allBalanceSheets.balanceSheets.reverse().forEach(function(bSheet, i){
+  //Days since last
+  if(lastBalanceSheet!=null){
+   var span = new TimeSpan(bSheet.date - lastBalanceSheet.date);
+   bSheet.daysSinceLast = span.days;
+   bSheet.daysSinceFirst = lastBalanceSheet.daysSinceFirst + bSheet.daysSinceLast;
+  }
+  //Create rows
+  var currentRow = [];
+  currentRow.push(bSheet.daysSinceFirst);
+  currentRow.push(bSheet.sums.netWorth);
+  currentRow.push(bSheet.sums.totalAssets);
+  currentRow.push(bSheet.sums.debt);
+  currentRow.push(bSheet.sums.cashStocksRetirement);
+  currentRow.push(bSheet.sums.liquidNetWorth);
+  allBalanceSheets.chartRows.push(currentRow);
+  lastBalanceSheet = bSheet;
+ });
+ }
+ 
+ 
+}
+
+function Entry(amount, displayName, note, notTaxed){
+ this.amount = Number(amount);
+ this.displayName = displayName.trim();
+ this.note = note.trim();
+ this.notTaxed = notTaxed;
+}
+
+function BalanceSheet(date){ 
+   this.date = Date.parse(date);
+   this.cash = [];
+   this.stocks =[];
+   this.altC = [];
+   this.retire= [];
+   this.otherAsset = [];
+   this.liability = [];
+   this.debt = [];
+   this.sums = JSON.parse("{}");//Will later hold 'cash':'1421', 'stocks':'432', etc.
+   this.projected = JSON.parse("{}")//Will later hold netWorth:[432, 2345, 321...], where first is num of days and rest are 
+   this.daysSinceLast=0;
+   this.daysSinceFirst=0;
+   this.dailyChanges=JSON.parse("{}");
+ 
+   this.addEntry = function(line){
+     //Determine where entry belongs
+     if(line.length==0 || line.charAt(0)==='-'){
+    return;
+  }
+     var wordsInLine = line.split(" ");
+     var type = typeMapping[wordsInLine[0]];
+     if(type === undefined){
+       alert("Unable to read entry type in line: '" + line + "'");
+       return;
+     }
+  
+  //Determine Amount
+  if(wordsInLine.length<2){
+    alert("Unable to read amount in line: '" + line + "'");
+  }
+  var amount = wordsInLine[1].replace(/,/g, '');
+  if(!$.isNumeric(amount)){
+    alert("Unable to read amount in line: '" + line + "'");
+  }
+  
+  //Determine display name and notes, and add to balance sheet
+  if(wordsInLine.length<3){
+    alert("Unable to read display name in line: '" + line + "'");
+  }
+  var nameAndNotes = line.split(wordsInLine[1])[1].split("|");
+  if(nameAndNotes.length==1){
+  this[type].push(new Entry(amount, nameAndNotes[0],'', wordsInLine[0]=='k'));
+  } else {
+  this[type].push(new Entry(amount, nameAndNotes[0], nameAndNotes[1], wordsInLine[0]=='k'));
+  }
+   }
+
+   this.calculateSums = function(){
+ this.sums.cash = calculateSum(this.cash);
+ this.sums.stocks = calculateSum(this.stocks);
+ this.sums.altC = calculateSum(this.altC);
+ this.sums.retire = calculateSum(this.retire);
+ this.sums.otherAsset = calculateSum(this.otherAsset);
+ this.sums.liability = calculateSum(this.liability);
+ this.sums.debt = calculateSum(this.debt);
+ this.sums.totalAssets = this.sums.cash + this.sums.stocks + this.sums.altC + this.sums.retire + this.sums.otherAsset;
+ this.sums.totalLiabilities = this.sums.liability + this.sums.debt;
+ this.sums.netWorth = this.sums.totalAssets - this.sums.totalLiabilities;
+ this.sums.liquidNetWorth = this.sums.cash + this.sums.stocks + this.sums.altC - this.sums.liability;
+ this.sums.cashStocksRetirement = this.sums.totalAssets - this.sums.otherAsset;
+   };
+   
+   function calculateSum(entries){
+ var sum = 0;
+ entries.forEach(function(entry) {
+  var amt = entry.notTaxed?entry.amount*(1-EXPECTED_EFFECTIVE_RETIREMENT_TAX_RATE):entry.amount;
+  sum = sum + amt;
+ });
+ return sum;
+   }
+   
+   this.calculateProjecteds = function(bSheetIndx){
+  this.calculateProjectedForType('netWorth', bSheetIndx);
+  this.calculateProjectedForType('totalAssets', bSheetIndx);
+  this.calculateProjectedForType('debt', bSheetIndx);
+  this.calculateProjectedForType('cashStocksRetirement', bSheetIndx);
+  this.calculateProjectedForType('liquidNetWorth', bSheetIndx);
+   }
+   
+   this.calculateProjectedForType = function(type, bSheetIndx){
+  var dailyChange = this.getDailyWeightedProject(type, bSheetIndx);
+  this.dailyChanges[type]=dailyChange;
+  this.projected[type]=[];
+  for(i=0;i<NUM_OF_PROJECTED_POINTS;i++){
+   this.projected[type].push(((i+1) * DAY_IN_PROJECTED * dailyChange) + this.sums[type]);
+  }
+   }
+   
+   this.getDailyWeightedProject = function(type, bSheetIndx){
+  var getDiffs = function(i, type){
+   var sum1 = allBalanceSheets.balanceSheets[i].sums[type];
+   var sum2 = allBalanceSheets.balanceSheets[i+1].sums[type];
+   return (sum1-sum2)/allBalanceSheets.balanceSheets[i].daysSinceLast;
+  }
+  var num = allBalanceSheets.balanceSheets.length - bSheetIndx;
+  if(bSheetIndx+1<allBalanceSheets.balanceSheets.length && bSheetIndx+2<allBalanceSheets.balanceSheets.length && bSheetIndx+3<allBalanceSheets.balanceSheets.length)
+  {//This and three prev balance sheets used
+   return .5723*getDiffs(bSheetIndx, type) + .2856*getDiffs(bSheetIndx+1, type) + .1452*getDiffs(bSheetIndx+2, type);
+  }
+  else if(bSheetIndx+1<allBalanceSheets.balanceSheets.length && bSheetIndx+2<allBalanceSheets.balanceSheets.length){//This and two previous used
+   return .333*getDiffs(bSheetIndx, type) + .666*getDiffs(bSheetIndx+1, type);
+  } else if(bSheetIndx+1<allBalanceSheets.balanceSheets.length){//This and 1 previous used
+   return getDiffs(bSheetIndx, type);
+  } else {//First balance sheet, cannot do projections
+   return -1;
+  }
+   }
+}
+
+</script>
+<script id='printingFunctions'>
+
+ function padRight(str, len, toAdd){
+  var numToAdd = len - str.length;
+  for(var i=0 ; i < numToAdd; i++){
+   str = str + toAdd;
+  }
+  return str;
+ }
+ 
+ function printBalanceSheet(bSheet){
+  bSheet.liability.map(function(x) { x.amount = x.amount * -1; return x;});
+  bSheet.debt.map(function(x) { x.amount = x.amount * -1; return x;});
+  var toReturn = "<div class='balanceSheet'>";
+  toReturn = toReturn + "<span class='date'>" + bSheet.date.toString(DATE_FORMAT) + "</span>";
+  
+  //Summary
+  toReturn = toReturn + printTotals('Net Worth', bSheet.sums.netWorth, true);
+  var cashStockRetireEntries = bSheet.cash.concat(bSheet.stocks).concat(bSheet.altC).concat(bSheet.retire);
+  toReturn = toReturn + printTotals('Cash, Stocks, & Retirement', bSheet.sums.cashStocksRetirement, false, cashStockRetireEntries);
+  var lnwEntries = bSheet.cash.concat(bSheet.stocks).concat(bSheet.altC).concat(bSheet.liability);
+  toReturn = toReturn + printTotals('Liquid Net Worth', bSheet.sums.liquidNetWorth, false, lnwEntries);
+  toReturn = toReturn + "\n</br>";
+  //Assets
+  toReturn = toReturn + printTotals('Total Assets', bSheet.sums.totalAssets, true);
+  toReturn = toReturn + printTotals('Cash', bSheet.sums.cash, false, bSheet.cash);
+  toReturn = toReturn + printTotals('Stocks', bSheet.sums.stocks, false, bSheet.stocks);
+  toReturn = toReturn + printTotals('Alernative Currency', bSheet.sums.altC, false, bSheet.altC);
+  toReturn = toReturn + printTotals('Retirement', bSheet.sums.retire, false, bSheet.retire);
+  bSheet.otherAsset.forEach(function(otherAsset){
+   toReturn = toReturn + printTotals(otherAsset.displayName, otherAsset.amount)
+  });
+  toReturn = toReturn + "\n</br>";
+  //Liabilities
+  toReturn = toReturn + printTotals('Total Liabilities', -bSheet.sums.totalLiabilities, true);
+  bSheet.liability.forEach(function(liab){
+   toReturn = toReturn + printTotals(liab.displayName, liab.amount)
+  });
+  bSheet.debt.forEach(function(liab){
+   toReturn = toReturn + printTotals(liab.displayName, liab.amount)
+  });
+  
+  toReturn = toReturn + "</div>";
+  return toReturn;
+ }
+ 
+ function printTotals(label, sum, header, entries){
+  if(header){
+   return "<div class='total header'><span class='label'>" + padRight((label), 33, '&nbsp;') + "</span><span> " + printAmount(sum) + "</span></div>\n";
+  }
+     var titleTxt = (entries==null)?'': "title='" + JSON.stringify(entries) +"'";
+  return "<div class='total' " + titleTxt +"><span class='label'>&nbsp;&nbsp;&nbsp;" + padRight((label), 30, '&nbsp;') + "</span><span> " + printAmount(sum) + "</span></div>\n";
+ }
+ 
+ function printAmount(amount, doNotDivide){
+  var signLabel = amount>=0?"positive":"negative";
+  var divAmount = NEAREST_AMOUNT_DISPLAY=='d'?1:NEAREST_AMOUNT_DISPLAY=='h'?100:NEAREST_AMOUNT_DISPLAY=='k'?1000:1;
+  var nearestAmount = Math.round(amount/divAmount);
+  nearestAmount = NEAREST_AMOUNT_DISPLAY=='h'?nearestAmount/10:nearestAmount;
+  if(doNotDivide){
+   nearestAmount = amount;
+  }
+  amountString = "$" + numberWithCommas(nearestAmount);
+  if(!doNotDivide){
+   amountString = NEAREST_AMOUNT_DISPLAY=='d'?amountString:amountString + 'k';
+  }
+  amountString = amountString.replace("-", "");
+  return "<span class='amount " + signLabel + "'>" + amountString + "</span>";
+ }
+ 
+ function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+ }
+</script>
+<script id='readAndPrintBalanceSheets'>
+ //Get lines from 'entries' div 
+ var entriesLines = $('#entries').text().split('\n');
+ var allBalanceSheets= new AllBalanceSheets();
+
+ //Create a new balance sheet entry for every date found
+ var bSheet;
+ entriesLines.forEach(function(line) {
+   line = line.trim();
+   if(Date.parse(line)!=null){//Is this line a date     
+  bSheet = new BalanceSheet(Date.parse(line));
+     allBalanceSheets.balanceSheets.push(bSheet);
+   } else if(bSheet!=null){//Add entry to balance sheet
+      bSheet.addEntry(line);
+   }
+})
+
+//Sort, Calculate sums, and print balance sheets
+allBalanceSheets.balanceSheets.sort(function(sheetA, sheetB){
+ return Date.compare(sheetB.date, sheetA.date);
+});
+
+allBalanceSheets.balanceSheets.forEach(function(bSheet, indx){
+ bSheet.calculateSums(); 
+ 
+ $('#balanceSheets').append(printBalanceSheet(bSheet));
+});
+
+//Remove Entries and Settings from DOM
+$('#entries').remove();
+$('#settings').remove();
+</script>
+<script id='postPrintBalanceSheet'>
+ //Hide and minimize all non-current balance sheets
+ $('.date').each(function(index, element){
+  if(index!=0){
+   $(element).siblings().hide();
+   $(element).attr('class', 'previous-date');
+   $(element).parent().attr('class', 'hidden-balanceSheet');
+  }
+  $(element).click(function(){
+   if($(element).attr('class')=='previous-date'){
+    $(element).siblings().show();
+    $(element).attr('class', 'date');
+    $(element).parent().attr('class', 'balanceSheet');
+   } else {
+    $(element).siblings().hide();
+    $(element).attr('class', 'previous-date');
+    $(element).parent().attr('class', 'hidden-balanceSheet');
+   }
+   })
+  
+ });
+</script>
+<script id='createNetWorthChart'>
+   google.charts.load('current', {'packages':['line']});
+      google.charts.setOnLoadCallback(drawChart);
+ 
+ 
+ 
+ 
+ 
+ var colors = allBalanceSheets.graphColors;
+ 
+    function drawChart() {
+   allBalanceSheets.data = new google.visualization.DataTable();
+   
+   //Setup Actual Controls
+   setupChangeControl('#netWorthControl', '#006600');
+   setupChangeControl('#assetsControl', '#0000cc');
+   setupChangeControl('#debtControl', '#6600cc');
+   setupChangeControl('#cashStocksRetirControl', '#800040');
+   setupChangeControl('#liquidNetWorth', '#cc3300');
+   
+   //Setup Projected Controls
+   setupChangeControl('#netWorthControlP', '#003300');
+   setupChangeControl('#assetsControlP', '#000080');
+   setupChangeControl('#debtControlP', '#400080');
+   setupChangeControl('#cashStocksRetirControlP', '#4d0026');
+   setupChangeControl('#liquidNetWorthP', '#802000');
+  
+      var data = new google.visualization.DataTable();
+      allBalanceSheets.data.addColumn('number', 'Days');
+      allBalanceSheets.data.addColumn('number', 'Net Worth');
+      allBalanceSheets.data.addColumn('number', 'Assets');
+      allBalanceSheets.data.addColumn('number', 'Debt');
+      allBalanceSheets.data.addColumn('number', 'Cash, Stocks, & Retirement');
+   allBalanceSheets.data.addColumn('number', 'Liquid Net Worth');
+      //data.addColumn('number', 'Projected Net Worth');
+     // data.addColumn('number', 'Projected Assets');
+    // data.addColumn('number', 'Projected Liabilities');
+     // data.addColumn('number', 'Projected Cash, Stocks, & Retirement');
+   //data.addColumn('number', 'Projected Liquid Net Worth');
+   
+   //Build data
+  allBalanceSheets.createChartRows();
+  allBalanceSheets.createProjectedRows();
+  allBalanceSheets.data.addRows(allBalanceSheets.chartRows);
+      
+   var colors = JSON.parse("{}");
+   colors[0]={color: '#006600'};
+   colors[1]={color: '#0000cc'};
+   colors[2]={color: '#6600cc'};
+   colors[3]={color: '#800040'};
+   colors[4]={color: '#cc3300'};
+   
+   for(i=0;i<allBalanceSheets.graphColors.length;i++){
+  colors[i+5] = {color: allBalanceSheets.graphColors[i]};
+   }
+   
+      var options = {
+        chart: {
+          title: 'Past, Current, and Projected Financial Positions',
+          subtitle: 'in thousands of dollars',
+    
+        },
+        width: 800,
+        height: 440,
+  legend: {
+   position: 'none'
+    },
+  annotations: {column_id: 'annotation'},
+  hAxis: {
+   textStyle: {fontSize: '5em'}
+    },
+  series: colors
+      };
+
+      var chart = new google.charts.Line(document.getElementById('netWorthChart'));
+   
+   allBalanceSheets.data.addColumn({type: 'string', role: 'tooltip'});
+  
+  //Fill out column in previous data rows and init new row
+  allBalanceSheets.chartRows.forEach(function(row){
+   row.push("AAAA");
+  });
+   
+   google.visualization.events.addListener(chart, 'ready', function(){
+  //Init to only show Actual Net worth
+  $("#assetsControl").click();
+  $("#debtControl").click();
+  $("#cashStocksRetirControl").click();
+  $("#liquidNetWorth").click();  
+  $("#netWorthControlP").click();
+  $("#assetsControlP").click();
+  $("#debtControlP").click();
+  $("#cashStocksRetirControlP").click();
+  $("#liquidNetWorthP").click();
+    
+  //Make project lines dashed
+  $("path[stroke='#003300']").attr('stroke-dasharray', '5,5');
+  $("path[stroke='#000080']").attr('stroke-dasharray', '5,5');
+  $("path[stroke='#400080']").attr('stroke-dasharray', '5,5');
+  $("path[stroke='#4d0026']").attr('stroke-dasharray', '5,5');
+  $("path[stroke='#802000']").attr('stroke-dasharray', '5,5');
+  
+  //Move Controls to above the chart
+  var controls = $('#netWorthChartControls').contents();
+  $('#netWorthChart').prepend(controls);
+  
+  //Change the Days to dates
+  var elemToChange = $($('text:contains(0)')[0]);
+  var firstDate = allBalanceSheets.balanceSheets.reverse()[0].date;
+  var lastDaysUsed = 0;
+  while(elemToChange.text()!='Days'){
+   var str = elemToChange.text();
+   if(str.indexOf('K')>0){
+    str = str.replace('K', '');
+    str = Number(str)*1000;
+   }
+   
+   elemToChange.text(firstDate.addDays(Number(str) - lastDaysUsed).toString(DATE_FORMAT));
+   lastDaysUsed = Number(str);
+   elemToChange.attr('title', str + ' days since first balance sheet' );
+   elemToChange = elemToChange.next();
+   
+  }
+  elemToChange.text('Date');
+  $('svg').attr('width', 850);
+  $( document ).tooltip({
+          content: function () {
+     var str = $(this).attr('title')
+     if(str.indexOf('days since first balance sheet')>-1){
+    return str;
+     } else {
+    var entries = JSON.parse(str);
+    str = "";
+    entries.forEach(function(entry){
+     str = str + "<div class='total'><span class='smallLabel'>&nbsp;&nbsp;&nbsp;" + padRight((entry.displayName), 50, '&nbsp;') + "</span><span class='smallLabel'> " + printAmount(entry.amount) + "</span></div>\n";
+     if(entry.notTaxed){
+      str = str + "<div class='total'><span class='smallLabel'>&nbsp;&nbsp;&nbsp;" + padRight(("Anticipated " + entry.displayName + " taxes"), 50, '&nbsp;') + "</span><span class='smallLabel'> " + printAmount(-entry.amount*EXPECTED_EFFECTIVE_RETIREMENT_TAX_RATE) + "</span></div>\n";
+     }
+    });
+    return str;
+     }
+          }
+      });
+  
+    
+    //Based on that, net worth is projected at $x in by EOY, $x in 5 years, $x in 10 years, and $x in 30 years
+    var insertAfter = $('svg');
+    var latestBalanceSheet = allBalanceSheets.balanceSheets[allBalanceSheets.balanceSheets.length-1];
+    var year = latestBalanceSheet.date.toString('yyyy');
+    var lastDayOfYear = Date.parse('12/31/' + year);
+    var daysLeftInYear = new TimeSpan(lastDayOfYear - latestBalanceSheet.date).days;
+    
+    ['liquidNetWorth', 'netWorth'].forEach(function(type){
+     var printType = type=='netWorth'?'Net Worth':'Liquid Net Worth';
+     var dailyChange = Math.trunc(latestBalanceSheet.dailyChanges[type]);     
+     var changeTxt = printAmount(dailyChange, true) + "/day --- " + printAmount((7*dailyChange), true) + "/week --- " + printAmount((30*dailyChange), true) + "/month -or- " + printAmount((365*dailyChange), true) + "/year.";
+     var txt = "<span class='analysis'>As of the last balance sheet, your " + printType + " increases by " + changeTxt + "</span><br/>";
+     var currAmount = latestBalanceSheet.sums[type];
+     var changeTxt2 = printAmount((currAmount + (daysLeftInYear*dailyChange))) + " by EOY, " + 
+   printAmount((currAmount + (365*5*dailyChange))) + " in 5 years, " +
+   printAmount((currAmount + (365*10*dailyChange))) + " in 10 years, " + 
+   printAmount((currAmount + (365*30*dailyChange))) + " in 30 years."; 
+     var txt2 = "<span class='analysis'>Based on that, " + printType + " is projected at "  + changeTxt2 + "</span><br/><br/>";
+   var inserted = insertAfter.after(txt2).after(txt);
+   insertAfter = inserted;
+    });
+   });
+  
+      chart.draw(allBalanceSheets.data, google.charts.Line.convertOptions(options));
+   
+
+    }
+ 
+ function hideShowControl(elem){
+   var span = $(elem.target);
+  if(span.css('text-decoration')=='line-through'){
+   span.css('text-decoration', '');
+   $("path[stroke='" + rgb2hex(span.css('color'))  + "']").show()
+  } else {
+   span.css('text-decoration', 'line-through');
+   $("path[stroke='" + rgb2hex(span.css('color'))  + "']").hide()
+  }
+   }
+ 
+ function setupChangeControl(spanId, clr){
+  $(spanId).css('color', clr);
+  $(spanId).click(hideShowControl);
+ }
+ 
+ function rgb2hex(rgb) {
+    rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    function hex(x) {
+        return ("0" + parseInt(x).toString(16)).slice(-2);
+    }
+    return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+}
+</script>
+</body>
+
+</html>
