@@ -1,0 +1,25 @@
+<html">
+<head>
+<title ng-bind='title'>Wiki</title>
+
+<!-- Angular JS Libraries -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.4/angular-sanitize.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+
+<!-- Internal JS Libraries -->
+<script src="github-wiki.js"></script>
+
+</head>
+
+
+<body ng-app="wiki"  ng-controller="wiki_git">
+	<ng-view></ng-view>
+</body>
+
+
+
+</html>
